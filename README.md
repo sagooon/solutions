@@ -196,3 +196,161 @@ int main() {
 
 ```
 
+## WAP that takes emp_id, name and salary of 10 employees and print the records of the employee who has maximum salary
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Employee {
+    int emp_id;
+    char name[50];
+    int salary;
+};
+
+int main() {
+    int i, max_salary = 0, max_salary_index = 0;
+    struct Employee employees[10];
+
+    // Get input from user
+    for (i = 0; i < 10; i++) {
+        printf("Enter details of employee %d:\n", i+1);
+        printf("Employee ID: ");
+        scanf("%d", &employees[i].emp_id);
+        printf("Name: ");
+        scanf("%s", employees[i].name);
+        printf("Salary: ");
+        scanf("%d", &employees[i].salary);
+
+        // Check if this employee has the maximum salary seen so far
+        if (employees[i].salary > max_salary) {
+            max_salary = employees[i].salary;
+            max_salary_index = i;
+        }
+    }
+
+    // Print the record of the employee with the maximum salary
+    printf("Record of employee with maximum salary:\n");
+    printf("Employee ID: %d\n", employees[max_salary_index].emp_id);
+    printf("Name: %s\n", employees[max_salary_index].name);
+    printf("Salary: %d\n", employees[max_salary_index].salary);
+
+    return 0;
+}
+
+```
+
+## WAP that takes sid_id, name and percentage of 10 students and print the records of students who scored distinctions
+
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+    int sid_id;
+    char name[50];
+    float percentage;
+};
+
+int main() {
+    int i;
+    struct Student students[10];
+
+    // Get input from user
+    for (i = 0; i < 10; i++) {
+        printf("Enter details of student %d:\n", i+1);
+        printf("Student ID: ");
+        scanf("%d", &students[i].sid_id);
+        printf("Name: ");
+        scanf("%s", students[i].name);
+        printf("Percentage: ");
+        scanf("%f", &students[i].percentage);
+    }
+
+    // Print records of students who scored distinction (percentage >= 75)
+    printf("Records of students who scored distinction:\n");
+    for (i = 0; i < 10; i++) {
+        if (students[i].percentage >= 75) {
+            printf("Student ID: %d\n", students[i].sid_id);
+            printf("Name: %s\n", students[i].name);
+            printf("Percentage: %.2f\n", students[i].percentage);
+        }
+    }
+
+    return 0;
+}
+
+```
+
+## WAP to write and read roll number, name and percentage of students to a data file until you press y-yes and finally display the contents to the data file
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct Student {
+    int roll_no;
+    char name[50];
+    float percentage;
+};
+
+int main() {
+    struct Student student;
+    char choice;
+    FILE *file;
+
+    // Open file for writing
+    file = fopen("students.dat", "wb");
+    if (file == NULL) {
+        printf("Error: Failed to open file.\n");
+        return 1;
+    }
+
+    // Get input from user and write to file
+    do {
+        printf("Enter student details:\n");
+        printf("Roll No: ");
+        scanf("%d", &student.roll_no);
+        printf("Name: ");
+        scanf("%s", student.name);
+        printf("Percentage: ");
+        scanf("%f", &student.percentage);
+
+        fwrite(&student, sizeof(struct Student), 1, file);
+
+        printf("Do you want to add more students? (y/n) ");
+        scanf(" %c", &choice);
+    } while (choice == 'y' || choice == 'Y');
+
+    fclose(file);
+
+    // Open file for reading
+    file = fopen("students.dat", "rb");
+    if (file == NULL) {
+        printf("Error: Failed to open file.\n");
+        return 1;
+    }
+
+    // Read and display contents of file
+    printf("\nStudent details:\n");
+    printf("Roll No\tName\t\tPercentage\n");
+    while (fread(&student, sizeof(struct Student), 1, file)) {
+        printf("%d\t%s\t%.2f\n", student.roll_no, student.name, student.percentage);
+    }
+
+    fclose(file);
+
+    return 0;
+}
+
+```
+
+## WAP designing a menu base system which has the following features:
+a. Writing records
+b. Reading records
+c. Appending records
+d. Deleting file
+
+```
+
+Coding on progress. Please wait.
+```
