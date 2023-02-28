@@ -345,10 +345,10 @@ int main() {
 ```
 
 ## WAP designing a menu base system which has the following features:
-a. Writing records
-b. Reading records
-c. Appending records
-d. Deleting file
+a. Writing records\n
+b. Reading records\n
+c. Appending records\n
+d. Deleting file\n
 
 ```
 
