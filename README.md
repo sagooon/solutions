@@ -1,4 +1,4 @@
-## WAP designing a menu base system which reads two integer values from user and calculate the sum, difference, and product using functions.
+## 4. WAP designing a menu base system which reads two integer values from user and calculate the sum, difference, and product using functions.
 
 ```
 #include <stdio.h>
@@ -54,7 +54,7 @@ int main() {
 }
 
 ```
-## WAP that takes roll number, fname, lname of 5 students and prints the same records in ascending order on the basis of roll number
+## 5. WAP that takes roll number, fname, lname of 5 students and prints the same records in ascending order on the basis of roll number
 
 ```
 #include <stdio.h>
@@ -104,7 +104,7 @@ int main() {
 
 ```
 
-## WAP that takes name and marks of 5 students and sort data in descending order on the basis of marks and display them
+## 6. WAP that takes name and marks of 5 students and sort data in descending order on the basis of marks and display them
 
 ```
 #include <stdio.h>
@@ -150,7 +150,7 @@ int main() {
 
 ```
 
-## WAP that reads names and address of different students and rearrange them on the basis of name in alphabetic order
+## 7. WAP that reads names and address of different students and rearrange them on the basis of name in alphabetic order
 
 ```
 #include <stdio.h>
@@ -196,7 +196,7 @@ int main() {
 
 ```
 
-## WAP that takes emp_id, name and salary of 10 employees and print the records of the employee who has maximum salary
+## 8. WAP that takes emp_id, name and salary of 10 employees and print the records of the employee who has maximum salary
 
 ```
 #include <stdio.h>
@@ -240,7 +240,7 @@ int main() {
 
 ```
 
-## WAP that takes sid_id, name and percentage of 10 students and print the records of students who scored distinctions
+## 9. WAP that takes sid_id, name and percentage of 10 students and print the records of students who scored distinctions
 
 ```
 #include <stdio.h>
@@ -282,75 +282,306 @@ int main() {
 
 ```
 
-## WAP to write and read roll number, name and percentage of students to a data file until you press y-yes and finally display the contents to the data file
+## 10. WAP to write and read roll number, name and percentage of students to/from a data file 
 ```
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Student {
-    int roll_no;
+// Define a struct to hold the student data
+struct student {
+    int roll_num;
     char name[50];
     float percentage;
 };
 
-int main() {
-    struct Student student;
-    char choice;
-    FILE *file;
+// Function to write student records to a file
+void write_records(FILE *fptr) {
+    int i, num_students;
+    struct student stu;
 
-    // Open file for writing
-    file = fopen("students.dat", "wb");
-    if (file == NULL) {
-        printf("Error: Failed to open file.\n");
-        return 1;
-    }
+    printf("How many student records do you want to enter? ");
+    scanf("%d", &num_students);
 
-    // Get input from user and write to file
-    do {
-        printf("Enter student details:\n");
-        printf("Roll No: ");
-        scanf("%d", &student.roll_no);
+    // Loop through each student and write their data to the file
+    for (i = 0; i < num_students; i++) {
+        printf("\nEnter details for student %d:\n", i+1);
+        printf("Roll number: ");
+        scanf("%d", &stu.roll_num);
         printf("Name: ");
-        scanf("%s", student.name);
+        scanf("%s", stu.name);
         printf("Percentage: ");
-        scanf("%f", &student.percentage);
+        scanf("%f", &stu.percentage);
 
-        fwrite(&student, sizeof(struct Student), 1, file);
-
-        printf("Do you want to add more students? (y/n) ");
-        scanf(" %c", &choice);
-    } while (choice == 'y' || choice == 'Y');
-
-    fclose(file);
-
-    // Open file for reading
-    file = fopen("students.dat", "rb");
-    if (file == NULL) {
-        printf("Error: Failed to open file.\n");
-        return 1;
+        fprintf(fptr, "%d %s %f\n", stu.roll_num, stu.name, stu.percentage);
     }
 
-    // Read and display contents of file
-    printf("\nStudent details:\n");
-    printf("Roll No\tName\t\tPercentage\n");
-    while (fread(&student, sizeof(struct Student), 1, file)) {
-        printf("%d\t%s\t%.2f\n", student.roll_no, student.name, student.percentage);
-    }
+    printf("\nStudent records written to file.\n");
+}
 
-    fclose(file);
+// Function to read student records from a file
+void read_records(FILE *fptr) {
+    struct student stu;
+
+    printf("\nRoll Number\tName\tPercentage\n");
+
+    // Loop through each line of the file and print the student data
+    while (fscanf(fptr, "%d %s %f", &stu.roll_num, stu.name, &stu.percentage) != EOF) {
+        printf("%d\t\t%s\t%.2f\n", stu.roll_num, stu.name, stu.percentage);
+    }
+}
+
+int main() {
+    FILE *fptr;
+    char filename[50], choice;
+
+    printf("Enter the filename: ");
+    scanf("%s", filename);
+
+    // Open the file in append mode (to add new records) or read mode (to display existing records)
+    printf("Do you want to append to the file or read from it? (a/r) ");
+    scanf(" %c", &choice);
+
+    if (choice == 'a') {
+        // Open the file in append mode
+        fptr = fopen(filename, "a");
+
+        if (fptr == NULL) {
+            printf("Error opening file.\n");
+            exit(1);
+        }
+
+        write_records(fptr);
+
+        fclose(fptr);
+    }
+    else if (choice == 'r') {
+        // Open the file in read mode
+        fptr = fopen(filename, "r");
+
+        if (fptr == NULL) {
+            printf("Error opening file.\n");
+            exit(1);
+        }
+
+        read_records(fptr);
+
+        fclose(fptr);
+    }
+    else {
+        printf("Invalid choice.\n");
+    }
 
     return 0;
 }
 
 ```
 
-## WAP designing a menu base system which has the following features:
+
+## 11. WAP that stores roll number, name and percentage of students to a data file until you press y-yes and finally display the contents to the data file
+```
+#include <stdio.h>
+#include <stdlib.h>
+
+struct student {
+    int roll_number;
+    char name[50];
+    float percentage;
+};
+
+int main() {
+    struct student s;
+    FILE *fp;
+    char ch = 'y';
+    
+    fp = fopen("student_data.txt", "w");
+    if(fp == NULL) {
+        printf("Error: Unable to open file.\n");
+        exit(1);
+    }
+    
+    while(ch == 'y' || ch == 'Y') {
+        printf("\nEnter Roll Number: ");
+        scanf("%d", &s.roll_number);
+        
+        printf("Enter Name: ");
+        scanf("%s", s.name);
+        
+        printf("Enter Percentage: ");
+        scanf("%f", &s.percentage);
+        
+        fwrite(&s, sizeof(s), 1, fp);
+        
+        printf("\nDo you want to enter data for another student? (y/n): ");
+        scanf(" %c", &ch);
+    }
+    
+    fclose(fp);
+    
+    // Read the contents of the data file
+    fp = fopen("student_data.txt", "r");
+    if(fp == NULL) {
+        printf("Error: Unable to open file.\n");
+        exit(1);
+    }
+    
+    printf("\n\nStudent Data:\n\n");
+    printf("Roll Number\tName\t\tPercentage\n");
+    
+    while(fread(&s, sizeof(s), 1, fp)) {
+        printf("%d\t\t%s\t\t%.2f\n", s.roll_number, s.name, s.percentage);
+    }
+    
+    fclose(fp);
+    
+    return 0;
+}
+
+
+```
+
+## 12. WAP designing a menu base system which has the following features:
 a. Writing records\n
 b. Reading records\n
 c. Appending records\n
 d. Deleting file\n
 
 ```
+#include <stdio.h>
+#include <stdlib.h>
 
-Coding on progress. Please wait.
+void write_records();
+void read_records();
+void append_records();
+void delete_file();
+
+int main() {
+    char choice;
+
+    while(1) {
+        printf("\n\nMenu\n");
+        printf("----\n");
+        printf("1. Write Records\n");
+        printf("2. Read Records\n");
+        printf("3. Append Records\n");
+        printf("4. Delete File\n");
+        printf("5. Exit\n");
+
+        printf("\nEnter your choice: ");
+        scanf(" %c", &choice);
+
+        switch(choice) {
+            case '1':
+                write_records();
+                break;
+            case '2':
+                read_records();
+                break;
+            case '3':
+                append_records();
+                break;
+            case '4':
+                delete_file();
+                break;
+            case '5':
+                exit(0);
+            default:
+                printf("\nInvalid choice. Please try again.\n");
+        }
+    }
+    return 0;
+}
+
+void write_records() {
+    char filename[50];
+    FILE *fp;
+    int roll, marks;
+
+    printf("\nEnter the filename to write records: ");
+    scanf("%s", filename);
+
+    fp = fopen(filename, "w");
+
+    if(fp == NULL) {
+        printf("\nFailed to open file.\n");
+        return;
+    }
+
+    printf("\nEnter the roll number and marks (separated by a space) for 10 students:\n");
+
+    for(int i=1; i<=10; i++) {
+        scanf("%d %d", &roll, &marks);
+        fprintf(fp, "%d %d\n", roll, marks);
+    }
+
+    fclose(fp);
+    printf("\nRecords written to file successfully.\n");
+}
+
+void read_records() {
+    char filename[50];
+    FILE *fp;
+    int roll, marks;
+
+    printf("\nEnter the filename to read records: ");
+    scanf("%s", filename);
+
+    fp = fopen(filename, "r");
+
+    if(fp == NULL) {
+        printf("\nFailed to open file.\n");
+        return;
+    }
+
+    printf("\nRoll Number\tMarks\n");
+    printf("------------------------\n");
+
+    while(fscanf(fp, "%d %d", &roll, &marks) == 2) {
+        printf("%d\t\t%d\n", roll, marks);
+    }
+
+    fclose(fp);
+}
+
+void append_records() {
+    char filename[50];
+    FILE *fp;
+    int roll, marks;
+
+    printf("\nEnter the filename to append records: ");
+    scanf("%s", filename);
+
+    fp = fopen(filename, "a");
+
+    if(fp == NULL) {
+        printf("\nFailed to open file.\n");
+        return;
+    }
+
+    printf("\nEnter the roll number and marks (separated by a space) for 5 students:\n");
+
+    for(int i=1; i<=5; i++) {
+        scanf("%d %d", &roll, &marks);
+        fprintf(fp, "%d %d\n", roll, marks);
+    }
+
+    fclose(fp);
+    printf("\nRecords appended to file successfully.\n");
+}
+
+void delete_file() {
+    char filename[50];
+    int status;
+
+    printf("\nEnter the filename to delete: ");
+    scanf("%s", filename);
+
+    status = remove(filename);
+
+    if(status == 0) {
+        printf("\nFile deleted successfully.\n");
+    } else {
+        printf("\nFailed to delete file.\n");
+    }
+}
+
 ```
